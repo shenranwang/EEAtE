@@ -13,7 +13,6 @@ def load_data(table_dict, options_table):
     data = pd.read_csv(DL_PATH + table_dict[options_table], sep='\t')
     lowercase = lambda x: str(x).lower()
     data.rename(lowercase, axis='columns', inplace=True)
-    data = data.set_index(data.columns[0])
     #for column in data.columns:
     #    print("column:", column)
     #    data[column] = pd.to_numeric(data[column], downcast='float')
@@ -27,18 +26,19 @@ options_table = st.selectbox(
 st.title(options_table)
 
 df = load_data(table_dict, options_table)
+df = df.set_index(df.columns[0])
 
 container = st.container()
 
 options_nation = container.multiselect(
-    "Choose {}".format(df.index.name),
+    "Choose {}".format(df.index.name.split("\\")[0]),
     df.index.tolist(),
     [],
 )
 all_nations = container.checkbox("Select all", True, key=0)
 
 options_year = container.multiselect(
-    "Choose year",
+    "Choose {}".format(df.index.name.split("\\")[1]),
     df.columns.tolist(),
     [],
 )
