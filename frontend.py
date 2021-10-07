@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-ALL = "All"
 DL_PATH = 'https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/'
 table_dict = {
     'Greenhouse gas emissions by source sector': 'sdg_13_10.tsv.gz',
@@ -29,21 +28,25 @@ st.title(options_table)
 
 df = load_data(table_dict, options_table)
 
-options_nation = st.multiselect(
+container = st.container()
+
+options_nation = container.multiselect(
     "Choose {}".format(df.index.name),
-    [ALL] + df.index.tolist(),
-    ALL,
+    df.index.tolist(),
+    [],
 )
+all_nations = container.checkbox("Select all", True, key=0)
 
-options_year = st.multiselect(
+options_year = container.multiselect(
     "Choose year",
-    [ALL] + df.columns.tolist(),
-    ALL,
+    df.columns.tolist(),
+    [],
 )
+all_years = container.checkbox("Select all", True, key=1)
 
-if ALL in options_nation:
+if all_nations:
     options_nation = df.index
-if ALL in options_year:
+if all_years:
     options_year = df.columns
 
 data = df.loc[options_nation][options_year]
