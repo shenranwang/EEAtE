@@ -1,92 +1,70 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import os
 import glob
+import os
+import requests
+
+import pandas as pd
+import streamlit as st
+
 from table_query import TableQA
 
-DL_PATH = 'https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/'
-table_dict = {
-    'Greenhouse gas emissions by source sector': 'sdg_13_10.tsv.gz',
-    'Greenhouse gas emissions per capita': 't2020_rd300.tsv.gz',
-}
+st.title("Energy Efficient Action through Education")
 
-@st.cache
-def load_data(table_dict, options_table):
-    data = pd.read_csv(DL_PATH + table_dict[options_table], sep='\t')
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    #for column in data.columns:
-    #    print("column:", column)
-    #    data[column] = pd.to_numeric(data[column], downcast='float')
-    return data
+tables = [os.path.basename(filepath).replace(".csv", "") for filepath in glob.glob("./data/tables/*.csv")]
 
 options_table = st.selectbox(
     'Select table',
-    table_dict.keys(),
+    tables,
 )
 
-st.title(options_table)
+@st.cache
+def load_data(options_table):
+    df = pd.read_csv(f"data/tables/{options_table}.csv")
+    df = df.sort_values(["Country", "Year"]).reset_index(drop=True)
+    return df
 
-df = load_data(table_dict, options_table)
-df = df.set_index(df.columns[0])
+df = load_data(options_table)
+
+options_nation = st.multiselect("Choose countries, all if not specified", df["Country"].unique())
+options_year = st.multiselect("Choose years, all if not specified", df["Year"].unique())
+
+data = df
+
+if options_nation != []:
+    data = data[data["Country"].isin(options_nation)]
+if options_year != []:
+    data = data[data["Year"].isin(options_year)]
+
+data
+
+st.header("Search")
+
+options_table_search = st.selectbox(
+    'Select table, or keep all tables',
+    ["All tables"] + tables,
+)
+
+user_input = st.text_input("Ask a question about the data!", "")
+filename = None if options_table_search == "All tables" else options_table_search
+
+try:
+    st.write(TableQA.get_response(user_input, filename=filename))
+except:
+    st.write("The question does not seem to ask relevant information.")
+
+st.header("EETU")
 
 container = st.container()
 
-options_nation = container.multiselect(
-    "Choose {}".format(df.index.name.split("\\")[0]),
-    df.index.tolist(),
-    [],
-)
-all_nations = container.checkbox("Select all", True, key=0)
+user_input_bot = container.text_input("Ask questions from EETU!", "")
 
-options_year = container.multiselect(
-    "Choose {}".format(df.index.name.split("\\")[1]),
-    df.columns.tolist(),
-    [],
-)
-all_years = container.checkbox("Select all", True, key=1)
+url = "http://localhost:5005/webhooks/rest/webhook"
+payload = {
+"sender": "johndoe",
+"message": user_input_bot
+}
+response = requests.post(url, json=payload)
 
-if all_nations:
-    options_nation = df.index
-if all_years:
-    options_year = df.columns
-
-data = df.loc[options_nation][options_year]
-st.dataframe(data)
-
-# if len(data) < 5:
-#    st.write(data.columns)
-#    transposed = data.transpose()
-#    data2 = pd.DataFrame(
-#        np.random.randn(20, 3),
-#        columns=['a', 'b', 'c'])
-#    a = data.info()
-#    c = transposed.info()
-#    b = data2.info()
-#    st.line_chart(data2)
-
-st.title("Search")
-tables = [os.path.basename(filepath).replace(".csv", "") for filepath in glob.glob("./data/tables/*.csv")]
-
-container_search = st.container()
-
-options_search = container_search.selectbox(
-    "Choose {}".format("data table"),
-    tables,
-)
-all_search = container_search.checkbox("Select all", True, key=2)
-user_input = container_search.text_input("Ask a question!", "")
-
-if all_search:
-    try:
-        st.write(TableQA.get_response(user_input))
-    except:
-        st.write("The question does not seem to ask relevant information.")
-else:
-    try:
-        st.write(TableQA.get_response(user_input, filename=options_search))
-    except:
-        st.write("The question does not seem to ask relevant information.")
-
-
+try: 
+    container.write("EETU:\n\n" + response.json()[0]["text"])
+except:
+    container.write("EETU:\n\n" + "Hi! Ask me a question!")
