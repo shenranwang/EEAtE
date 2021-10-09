@@ -1,0 +1,13 @@
+version: "2.0"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Answer questions from users regarding sustainability
+  steps:
+  - intent: ask_question
+  - action: action_answer_question
