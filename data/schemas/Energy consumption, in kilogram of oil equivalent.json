@@ -1,8 +1,9 @@
 {
-    "name": "Energy efficiency",
+    "name": "Energy consumption, in kilogram of oil equivalent",
     "keywords": [
-        "energy efficiency",
-        "efficiency"
+        "energy consumption in households",
+        "households",
+        "energy consumption"
     ],
     "columns": [
         {
@@ -16,10 +17,11 @@
             "name": "Year"
         },
         {
-            "name": "Energy efficiency",
+            "name": "Energy consumption",
             "keywords": [
-                "efficiency",
-                "energy efficiency"
+                "consumption",
+                "energy consumption",
+                "energy consumption in households"
             ],
             "summable": "True"
         }

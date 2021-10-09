@@ -1,9 +1,8 @@
 {
-    "name": "Taxes",
+    "name": "Energy productivity, in euros per kilogram of oil equivalent",
     "keywords": [
-        "tax",
-        "taxes",
-        "energy taxes"
+        "energy productivity",
+        "productivity"
     ],
     "columns": [
         {
@@ -17,11 +16,10 @@
             "name": "Year"
         },
         {
-            "name": "Tax amount",
+            "name": "Energy productivity",
             "keywords": [
-                "tax",
-                "taxes",
-                "euros in taxes"
+                "productivity",
+                "energy productivity"
             ],
             "summable": "True"
         }
