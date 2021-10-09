@@ -1,0 +1,29 @@
+{
+    "name": "Taxes",
+    "keywords": [
+        "tax",
+        "taxes",
+        "energy taxes"
+    ],
+    "columns": [
+        {
+            "name": "Country",
+            "keywords": [
+                "nation",
+                "state"
+            ]
+        },
+        {
+            "name": "Year"
+        },
+        {
+            "name": "Tax amount",
+            "keywords": [
+                "tax",
+                "taxes",
+                "euros in taxes"
+            ],
+            "summable": "True"
+        }
+    ]
+}

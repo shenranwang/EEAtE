@@ -1,0 +1,27 @@
+{
+    "name": "Energy efficiency",
+    "keywords": [
+        "energy efficiency",
+        "efficiency"
+    ],
+    "columns": [
+        {
+            "name": "Country",
+            "keywords": [
+                "nation",
+                "state"
+            ]
+        },
+        {
+            "name": "Year"
+        },
+        {
+            "name": "Energy efficiency",
+            "keywords": [
+                "efficiency",
+                "energy efficiency"
+            ],
+            "summable": "True"
+        }
+    ]
+}

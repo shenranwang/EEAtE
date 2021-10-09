@@ -1,0 +1,37 @@
+{
+    "name": "Gas emissions by source sector",
+    "keywords": [
+        "emissions by sector",
+        "pollutions by sector"
+    ],
+    "columns": [
+        {
+            "name": "Country",
+            "keywords": [
+                "nation",
+                "state"
+            ]
+        },
+        {
+            "name": "Sector"
+        },
+        {
+            "name": "Type",
+            "keywords": [
+                "pollution",
+                "type of pollution"
+            ]
+        },
+        {
+            "name": "Year"
+        },
+        {
+            "name": "Pollution",
+            "keywords": [
+                "amount of pollution",
+                "amount"
+            ],
+            "summable": "True"
+        }
+    ]
+}

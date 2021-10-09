@@ -1,0 +1,32 @@
+{
+    "name": "Emissions per capita",
+    "keywords": [
+        "gas emmissions",
+        "per capita",
+        "greenhouse gases",
+        "greenhouse emissions"
+    ],
+    "columns": [
+        {
+            "name": "Country",
+            "keywords": [
+                "nation",
+                "state"
+            ]
+        },
+        {
+            "name": "Year"
+        },
+        {
+            "name": "Gas emissions per capita",
+            "keywords": [
+                "emissions",
+                "gas emisions",
+                "greenhouse emissions",
+                "greenhouse gases",
+                "gas emissions per capita"
+            ],
+            "summable": "True"
+        }
+    ]
+}

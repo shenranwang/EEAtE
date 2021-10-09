@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
+import glob
+from table_query import TableQA
 
 DL_PATH = 'https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/'
 table_dict = {
@@ -62,3 +65,28 @@ st.dataframe(data)
 #    c = transposed.info()
 #    b = data2.info()
 #    st.line_chart(data2)
+
+st.title("Search")
+tables = [os.path.basename(filepath).replace(".csv", "") for filepath in glob.glob("./data/tables/*.csv")]
+
+container_search = st.container()
+
+options_search = container_search.selectbox(
+    "Choose {}".format("data table"),
+    tables,
+)
+all_search = container_search.checkbox("Select all", True, key=2)
+user_input = container_search.text_input("Ask a question!", "")
+
+if all_search:
+    try:
+        st.write(TableQA.get_response(user_input))
+    except:
+        st.write("The question does not seem to ask relevant information.")
+else:
+    try:
+        st.write(TableQA.get_response(user_input, filename=options_search))
+    except:
+        st.write("The question does not seem to ask relevant information.")
+
+

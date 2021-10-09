@@ -1,0 +1,29 @@
+{
+    "name": "Energy consumption",
+    "keywords": [
+        "energy consumption in households",
+        "households",
+        "energy consumption"
+    ],
+    "columns": [
+        {
+            "name": "Country",
+            "keywords": [
+                "nation",
+                "state"
+            ]
+        },
+        {
+            "name": "Year"
+        },
+        {
+            "name": "Energy consumption",
+            "keywords": [
+                "consumption",
+                "energy consumption",
+                "energy consumption in households"
+            ],
+            "summable": "True"
+        }
+    ]
+}
