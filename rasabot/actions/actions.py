@@ -43,7 +43,7 @@ class ActionAnswerQuestion(Action):
         print("Response:", response)
         if not response:
             dispatcher.utter_message(text="I do not have an answer for that.")
-        else:    
+        else:
             dispatcher.utter_message(text=response)
 
         return []
